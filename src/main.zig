@@ -75,7 +75,7 @@ pub fn main() !void {
     defer file.close();
 
     if (verbose) {
-        try stdout.print("{s}: File handle is 0x{x:0>4}\n", .{ bin_name, @intFromPtr(file.handle) });
+        try stdout.print("{s}: File handle is {any}\n", .{ bin_name, file.handle });
     }
 
     // const file_cont = try file.readToEndAlloc(allocator, std.math.maxInt(u64));
