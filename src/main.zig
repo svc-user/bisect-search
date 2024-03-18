@@ -87,9 +87,10 @@ pub fn main() !void {
     var al = std.ArrayList(u8).init(allocator);
     defer al.deinit();
 
+    var do_break = false;
     while (true) {
         fls.streamUntilDelimiter(al.writer(), '\n', null) catch {
-            break;
+            do_break = true;
         };
         const line = try std.mem.concat(allocator, u8, &[_][]const u8{ al.items, "\n" });
         defer allocator.free(line);
@@ -116,6 +117,10 @@ pub fn main() !void {
         }
 
         al.items.len = 0;
+
+        if (do_break) {
+            break;
+        }
     }
 
     if (verbose) {
